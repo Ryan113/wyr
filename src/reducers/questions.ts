@@ -32,7 +32,6 @@ export const questionsReducer = (
             const targetId = action.payload;
             const foundQuestion = state.questions.find((question: Question) => question.id === targetId);
             return { ...state, question: foundQuestion || initialState.question };
-
         default:
             return state;
     }
