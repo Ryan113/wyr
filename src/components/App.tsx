@@ -5,82 +5,47 @@ import { StoreState } from "../reducers";
 
 interface AppProps {
     questions: Question[],
-    getQuestion: (id: number) => void, // Modify the type to accept the ID as an argument
+    question: Question
+    getQuestion: (id: number) => void, 
     getQuestions: () => void,
-    targetQuestion: Question | null; // Add targetQuestion property for the specific question
 }
 
 interface AppState {
-    qustionID: number;
-  }
+    questionID: number;
+}
 
 class _App extends React.Component<AppProps, AppState> {
     constructor(props: AppProps) {
         super(props);
         this.state = {
-            qustionID: 0
-          };
+            questionID: 1
+        };
     }
 
     componentDidMount() {
         this.props.getQuestions();
-        // Fetch the specific question with ID 1 when the component mounts
-        // this.props.getQuestion(4);
     }
 
     onButtonClick = (): void => {
-        this.setState((prevState) => ({ qustionID: prevState.qustionID + 1 }), () => {
-          // After updating the count in the state, call getQuestion with the updated count
-          this.props.getQuestion(this.state.qustionID);
-          console.log('count: ' + this.state.qustionID)
-        });
-      };
-
-    renderQuestion(): JSX.Element[] {
-        return this.props.questions.map((question: Question) => {
-            return (
-                <div>
-                    {question.question}
-                </div>
-            );
-        });
-    }
-
-    // renderQuestion(): JSX.Element {
-    //         return (
-    //             <div>
-    //                 {this.props.getQuestion(1)}
-    //             </div>
-    //         );
-    // }
+        const nextQuestionID = this.state.questionID + 1;
+        this.props.getQuestion(nextQuestionID); // Call the action with the updated ID
+        this.setState({ questionID: nextQuestionID });
+        console.log('hahahahaha ' +  JSON.stringify(this.props.question['question']));
+    };
 
     render() {
-        const { targetQuestion } = this.props;
-
         return (
             <div>
-                <button onClick={this.onButtonClick}>Fetch</button>
-                {/* { this.renderQuestion() } */}
-                {targetQuestion ? (
-                    // Display the specific question if it exists
-                    <div>{targetQuestion.question}</div>
-                ) : (
-                    // Show a loading or error message when the question is not available
-                    <div>Loading...</div>
-                )}
+                <button onClick={this.onButtonClick}>Fetch Next</button>
             </div>
         )
     }
 }
 
-// const mapStateToProps = ({ questions }: StoreState): { questions: Question[] } => {
-//     return { questions };
-// }
-
-const mapStateToProps = (state: StoreState): { questions: Question[]; targetQuestion: Question | null } => {
+const mapStateToProps = (state: StoreState): { questions: Question[]; question: Question } => {
     return {
         questions: state.questions,
-        targetQuestion: state.questions.find((question) => question.id) || null,
+        question: state.question
     };
 };
 

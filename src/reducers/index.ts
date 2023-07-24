@@ -3,9 +3,11 @@ import { questionsReducer } from "./questions";
 import { Question } from "../actions";
 
 export interface StoreState {
-    questions: Question[]
+    questions: Question[],
+    question: Question,
 }
 
-export const reducers = combineReducers<StoreState>({
+export const reducers = combineReducers({
     questions: questionsReducer,
+    question: questionsReducer
 });

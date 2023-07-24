@@ -40,5 +40,5 @@ export const getQuestion = (id: number): GetQuestionAction => {
     return {
         type: ActionTypes.getQuestion,
         payload: id
-    }
-}
+    };
+};
