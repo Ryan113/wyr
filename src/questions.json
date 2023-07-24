@@ -1,0 +1,123 @@
+[
+    {
+      "id": 1,
+      "question": "What is the capital of France?",
+      "answerA": {
+        "text": "Paris",
+        "votes": 0
+      },
+      "answerB": {
+        "text": "London",
+        "votes": 0
+      }
+    },
+    {
+      "id": 2,
+      "question": "Which planet is closest to the Sun?",
+      "answerA": {
+        "text": "Mars",
+        "votes": 0
+      },
+      "answerB": {
+        "text": "Mercury",
+        "votes": 0
+      }
+    },
+    {
+      "id": 3,
+      "question": "What is the largest mammal?",
+      "answerA": {
+        "text": "Elephant",
+        "votes": 0
+      },
+      "answerB": {
+        "text": "Blue whale",
+        "votes": 0
+      }
+    },
+    {
+      "id": 4,
+      "question": "Which country hosted the 2016 Summer Olympics?",
+      "answerA": {
+        "text": "Brazil",
+        "votes": 0
+      },
+      "answerB": {
+        "text": "USA",
+        "votes": 0
+      }
+    },
+    {
+      "id": 5,
+      "question": "Who wrote the play 'Romeo and Juliet'?",
+      "answerA": {
+        "text": "William Shakespeare",
+        "votes": 0
+      },
+      "answerB": {
+        "text": "Jane Austen",
+        "votes": 0
+      }
+    },
+    {
+      "id": 6,
+      "question": "Which is the largest ocean on Earth?",
+      "answerA": {
+        "text": "Atlantic Ocean",
+        "votes": 0
+      },
+      "answerB": {
+        "text": "Pacific Ocean",
+        "votes": 0
+      }
+    },
+    {
+      "id": 7,
+      "question": "What is the chemical symbol for water?",
+      "answerA": {
+        "text": "Wo",
+        "votes": 0
+      },
+      "answerB": {
+        "text": "H2O",
+        "votes": 0
+      }
+    },
+    {
+      "id": 8,
+      "question": "Which instrument is used to measure earthquakes?",
+      "answerA": {
+        "text": "Thermometer",
+        "votes": 0
+      },
+      "answerB": {
+        "text": "Seismometer",
+        "votes": 0
+      }
+    },
+    {
+      "id": 9,
+      "question": "What is the currency of Japan?",
+      "answerA": {
+        "text": "Yuan",
+        "votes": 0
+      },
+      "answerB": {
+        "text": "Yen",
+        "votes": 0
+      }
+    },
+    {
+      "id": 10,
+      "question": "Which gas do plants absorb from the atmosphere?",
+      "answerA": {
+        "text": "Carbon monoxide",
+        "votes": 0
+      },
+      "answerB": {
+        "text": "Carbon dioxide",
+        "votes": 0
+      }
+    }
+  ]
+  
