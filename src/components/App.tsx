@@ -5,6 +5,7 @@ import { StoreState } from "../reducers";
 import { Box } from '@mui/material';
 import Typography from "@mui/material/Typography";
 import cat from '../assets/cat.png';
+import op from '../assets/op.png';
 import AspectRatio from '@mui/joy/AspectRatio';
 import UIScreen from "./UI";
 
@@ -30,6 +31,7 @@ class _App extends React.Component<AppProps, AppState> {
 
     componentDidMount() {
         this.props.getQuestions();
+        this.props.getQuestion(1);
     }
 
     onButtonClick = (): void => {
@@ -56,7 +58,7 @@ class _App extends React.Component<AppProps, AppState> {
                         backgroundRepeat: 'no-repeat'
                     }}
                 >
-                    <UIScreen />
+                    <UIScreen question={this.props.question}/>
                 </Box>
             </AspectRatio>
         )
