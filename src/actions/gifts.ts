@@ -12,12 +12,18 @@ export interface Gifts {
 
 export interface GetGiftsAction {
     type: ActionTypes.getGifts;
-    payload: Gifts;
+    payload: any;
 }
 
 export const getGiftsData = (): GetGiftsAction => {
+    console.log(JSON.stringify('top ' + gifts))
+    const pollTimer = setInterval((gifts) => {
+        console.log(JSON.stringify('g ' + gifts))
+        return gifts;
+      }, 5000);
+
     return {
         type: ActionTypes.getGifts,
-        payload: gifts,
+        payload: pollTimer,
     };
 };

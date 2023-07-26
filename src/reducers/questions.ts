@@ -32,6 +32,10 @@ export const questionsReducer = (
             const targetId = action.payload;
             const foundQuestion = state.questions.find((question: Question) => question.id === targetId);
             return { ...state, question: foundQuestion || initialState.question };
+        case ActionTypes.updateVotesType:
+            const { key, value } = action.payload;
+            // need to update this so it updates question.answerA/B
+            return { ...state, [key as keyof unknown]: value };
         default:
             return state;
     }

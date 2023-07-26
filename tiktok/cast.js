@@ -1,5 +1,5 @@
 const { WebcastPushConnection } = require("tiktok-live-connector");
-import { v4 as uuidv4 } from 'uuid';
+const { v4: uuidv4 } = require('uuid');
 const fs = require("fs");
 const fileName = "../src/gift_data.json";
 
@@ -74,7 +74,7 @@ tiktokLiveConnection.on("gift", (data) => {
         (err) => {
           if (err) {
             console.error("Error writing to the file:", err);
-            return;
+            return;x``
           }
           console.log("Data added successfully!");
         }
