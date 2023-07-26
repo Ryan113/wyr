@@ -7,8 +7,8 @@ import { Question } from "../actions";
 
 
 export default function UIScreen(question: any) {
-    console.log("ui screen " + JSON.stringify(question));
-    console.log(question['question'].question)
+    // console.log("ui screen " + JSON.stringify(question));
+    // console.log(question['question'].question)
     
     let currentQuestion = question['question'].question;
     let answerAText = question['question'].answerA.text;

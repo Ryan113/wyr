@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Question, getQuestion, getQuestions } from "../actions";
+import { Question, getQuestion, getQuestions, getGiftsData } from "../actions";
 import { StoreState } from "../reducers";
 import { Box } from '@mui/material';
 import Typography from "@mui/material/Typography";
@@ -15,6 +15,7 @@ interface AppProps {
     question: Question
     getQuestion: (id: number) => void,
     getQuestions: () => void,
+    getGiftsData: () => void
 }
 
 interface AppState {
@@ -32,6 +33,7 @@ class _App extends React.Component<AppProps, AppState> {
     componentDidMount() {
         this.props.getQuestions();
         this.props.getQuestion(1);
+        console.log('gifts data: ' + JSON.stringify(this.props.getGiftsData()));
     }
 
     onButtonClick = (): void => {
@@ -58,21 +60,22 @@ class _App extends React.Component<AppProps, AppState> {
                         backgroundRepeat: 'no-repeat'
                     }}
                 >
-                    <UIScreen question={this.props.question}/>
+                    <UIScreen question={this.props.question} />
                 </Box>
             </AspectRatio>
         )
     }
 }
 
-const mapStateToProps = (state: StoreState): { questions: Question[]; question: any } => {
+const mapStateToProps = (state: StoreState): { questions: Question[]; question: any; gifts: any } => {
     return {
         questions: state.questions,
-        question: state.question['question']
+        question: state.question['question'],
+        gifts: state.gifts
     };
 };
 
 export const App = connect(
     mapStateToProps,
-    { getQuestion, getQuestions }
+    { getQuestion, getQuestions, getGiftsData }
 )(_App);

@@ -1,8 +1,11 @@
 import { GetQuestionsAction, GetQuestionAction } from "./questions";
+import { GetGiftsAction } from "./gifts"
+
 
 export enum ActionTypes {
     questions,
-    getQuestion
+    getQuestion,
+    getGifts,
 }
 
-export type Action = GetQuestionsAction | GetQuestionAction;
+export type Action = GetQuestionsAction | GetQuestionAction | GetGiftsAction;
