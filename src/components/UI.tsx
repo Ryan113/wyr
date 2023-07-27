@@ -1,20 +1,49 @@
 import * as React from "react";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
+import { connect } from "react-redux";
+import { getGiftsData, updateVotes } from "../actions";
+import { StoreState } from "../reducers";
 import { Box } from '@mui/material';
 import cat from '../assets/cat.png';
-import { Question } from "../actions";
+import { Gifts, Question, Votes } from "../actions";
 
+interface Props {
+    question: Question; // Replace 'Question' with the actual type for your 'question'
+    gifts: Gifts; // Replace 'Gifts' with the actual type for your 'gifts' data
+    updateVotes: (votes: Votes) => void; // Correct the type for updateVotes
+}
 
-export default function UIScreen(question: any) {
-    // console.log("ui screen " + JSON.stringify(question));
-    // console.log(question['question'].question)
-    
-    let currentQuestion = question['question'].question;
-    let answerAText = question['question'].answerA.text;
-    let answerAVotes = question['question'].answerA.votes;
-    let answerBText = question['question'].answerB.text;
-    let answerBVotes = question['question'].answerB.votes;
+const _UIScreen: React.FC<Props> = ({ question, gifts, updateVotes }) => {
+
+    console.log("gifts " + JSON.stringify(gifts));
+
+    let currentQuestion = question.question;
+    let answerAText = question.answerA.text;
+    let answerAVotes = question.answerA.votes;
+    let answerBText = question.answerB.text;
+    let answerBVotes = question.answerB.votes;
+
+    const calculateGifts = (gifts: any) => {
+        const giftsData = gifts.giftsData;
+        // const giftMessage = 
+
+        for (const key in giftsData) {
+          if (giftsData.hasOwnProperty(key)) {
+            const gift = giftsData[key];
+            console.log(key)
+            // console.log("Gift ID:", gift.giftId);
+            // console.log("Unique ID:", gift.uniqueId);
+            // console.log("User ID:", gift.userId);
+            // console.log("Repeat Count:", gift.repeatCount);
+            // console.log("--------------------");
+
+            return `${gift.uniqueId}: votes ${gift.giftId} x${gift.repeatCount}`;
+          }
+        }
+      };
+
+    console.log(calculateGifts(gifts));
 
     return (
         <Grid container spacing={2} sx={{ height: '100vh' }}>
@@ -43,10 +72,10 @@ export default function UIScreen(question: any) {
                             alignItems: 'center',
                         }}
                     >
-                        
+
                         <Typography sx={{ color: "black", fontSize: 74, textAlign: 'center' }}>
-                            {/* Oppenheimer or Barbie? */}
-                            { currentQuestion }
+                           
+                            {currentQuestion}
                         </Typography>
                     </Box>
                 </Box>
@@ -83,11 +112,11 @@ export default function UIScreen(question: any) {
                     >
                         {/* baby text 1 */}
                         <Typography sx={{ color: "black", fontSize: 64, textAlign: 'center' }}>
-                            { answerAText }
+                            {answerAText}
                         </Typography>
-                        {/* baby text 2 */}
+                        baby text 2
                         <Typography sx={{ color: "black", fontSize: 64, textAlign: 'center' }}>
-                            Votes: { answerAVotes }
+                            Votes: {answerAVotes}
                         </Typography>
                     </Box>
 
@@ -110,11 +139,11 @@ export default function UIScreen(question: any) {
                     >
 
                         <Typography sx={{ color: "black", fontSize: 64, textAlign: 'center' }}>
-                            { answerBText }
+                            {answerBText}
                         </Typography>
 
                         <Typography sx={{ color: "black", fontSize: 64, textAlign: 'center' }}>
-                            Votes: { answerBVotes }
+                            Votes: {answerBVotes}
                         </Typography>
                     </Box>
 
@@ -157,3 +186,14 @@ export default function UIScreen(question: any) {
         </Grid>
     )
 }
+
+const mapStateToProps = (state: StoreState): { gifts: any } => {
+    return {
+        gifts: state.gifts
+    };
+};
+
+export const UIScreen = connect(
+    mapStateToProps,
+    { updateVotes }
+)(_UIScreen);
