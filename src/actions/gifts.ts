@@ -1,5 +1,10 @@
 import { ActionTypes } from "./types";
-import gifts from '../gift_data.json';
+import { Dispatch } from 'redux';
+import axios from "axios";
+// import gifts from '../../db.json';
+
+const jsonDB = "http://localhost:3004/db";
+
 
 export interface Gifts {
     [key: string]: {
@@ -15,15 +20,26 @@ export interface GetGiftsAction {
     payload: any;
 }
 
-export const getGiftsData = (): GetGiftsAction => {
-    console.log(JSON.stringify('top ' + gifts))
-    const pollTimer = setInterval((gifts) => {
-        console.log(JSON.stringify('g ' + gifts))
-        return gifts;
-      }, 5000);
+export const getGiftsData = () => {
+        return async (dispatch: Dispatch) => {
+          const response = await axios.get("http://localhost:3004/db");
+        //   const data = await response.json();
+        //   console.log('Gifts Data:', data); // Log the data to check if it's fetched correctly.
 
-    return {
-        type: ActionTypes.getGifts,
-        payload: pollTimer,
+          dispatch<GetGiftsAction>({
+            type: ActionTypes.getGifts,
+            payload: response.data,
+          });
+        };
     };
-};
+
+    // export const fetchTodos = () => {
+    //     return async (dispatch: Dispatch) => {
+    //         const response = await axios.get<Todo[]>(url);
+    
+    //         dispatch<FetchTodosAction>({
+    //             type: ActionTypes.fetchTodos,
+    //             payload: response.data
+    //         })
+    //     }
+    // }

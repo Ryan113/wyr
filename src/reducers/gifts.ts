@@ -8,7 +8,7 @@ const initialState = {
 export const giftsReducer = (state = initialState, action: Action) => {
     switch (action.type) {
         case ActionTypes.getGifts:
-            console.log('update: ' + JSON.stringify(action.payload))
+            // console.log('update: ' + JSON.stringify(action.payload))
             return {
                 ...state,
                 giftsData: action.payload,

@@ -34,12 +34,8 @@ class _App extends React.Component<AppProps, AppState> {
     componentDidMount() {
         this.props.getQuestions();
         this.props.getQuestion(1);
-        console.log('gifts data: ' + JSON.stringify(this.props.getGiftsData()));
-        // setInterval(() => { this.props.getGiftsData()}, 7000);
-        
-        // this.props.updateVotes({ 'answerB': { votes: 5 } });
-        // console.log('all the shit: ' + JSON.stringify(this.props.questions));
-    }
+        this.props.getGiftsData();
+      }
 
     onButtonClick = (): void => {
         const nextQuestionID = this.state.questionID + 1;
@@ -84,3 +80,18 @@ export const App = connect(
     mapStateToProps,
     { getQuestion, getQuestions, getGiftsData, updateVotes }
 )(_App);
+
+// Add the WebSocket connection here
+const ws = new WebSocket('ws://localhost:8080');
+
+ws.onopen = () => {
+  console.log('WebSocket connected');
+};
+
+ws.onmessage = (event) => {
+//   const data = JSON.parse(event.data);
+  console.log("does this work: " + event.data);
+  // Here, dispatch your Redux action to update the state with the new data
+  // For example:
+  // this.props.updateGiftsData(data);
+};

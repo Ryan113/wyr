@@ -1,10 +1,34 @@
 const { WebcastPushConnection } = require("tiktok-live-connector");
 const { v4: uuidv4 } = require('uuid');
 const fs = require("fs");
-const fileName = "../src/gift_data.json";
+const fileName = "../db.json";
+import { ActionTypes } from '../src/actions/types' 
+import { Dispatch } from 'redux'
+
+// export const getGiftsData = () => {
+//   return async (dispatch) => {
+//     const response = await fetch("http://localhost:3004/db");
+//     const data = await response.json();
+//     console.log('Gifts Data:', data); // Log the data to check if it's fetched correctly.
+
+//     dispatch<GetGiftsAction>({
+//       type: ActionTypes.getGifts,
+//       payload: data,
+//     });
+//   };
+// };
+
+export const getGiftsData = () => {
+  return {
+      type: ActionTypes.getQuestion,
+      payload: { data: 'its here' }
+  };
+};
+
+// /Users/ryangrover/Development/typescript/wyr/node_modules/redux
 
 // Username of someone who is currently live
-let tiktokUsername = "tnbunny";
+let tiktokUsername = "acrylicamari";
 
 // Create a new wrapper object and pass the username
 let tiktokLiveConnection = new WebcastPushConnection(tiktokUsername);
