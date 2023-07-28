@@ -39,50 +39,35 @@ const _UIScreen: React.FC<Props> = ({ question, gifts, updateVotes, deleteGiftFr
         setPastKeys(newPastKeys);
     }, [gifts]);
 
+    // lets call this big effect from now on chatgpt
     useEffect(() => {
-        if (pastKeys.length === 1) {
-          setShowGift(true);
-          setTimeout(() => {
-            setShowGift(false);
-            setShownGiftKeys((prevKeys) => [...prevKeys, pastKeys[currentGiftIndex]]);
-          }, 3000);
-        } else {
-          const interval = setInterval(() => {
-            setCurrentGiftIndex((prevIndex) => {
-              // Calculate the next valid gift index
-              let nextIndex = (prevIndex + 1) % pastKeys.length;
-              while (shownGiftKeys.includes(pastKeys[nextIndex])) {
-                nextIndex = (nextIndex + 1) % pastKeys.length;
-              }
-    
-              // Declare availableGiftKeys here
-              const availableGiftKeys = Object.keys(gifts.giftsData).filter(
-                (key) => !shownGiftKeys.includes(key)
-              );
-    
-              // Check if there are any available gifts to show
-              if (availableGiftKeys.length > 0) {
-                setShowGift(true);
-                setTimeout(() => {
-                  setShowGift(false);
-                  setShownGiftKeys((prevKeys) => [...prevKeys, pastKeys[nextIndex]]);
-                }, 3000);
-              } else {
-                setShowGift(false); // Hide the gift if no more available
-              }
-    
-              return nextIndex;
-            });
-          }, 3000);
-    
-          return () => clearInterval(interval);
-        }
-      }, [pastKeys, shownGiftKeys]);
+        const interval = setInterval(() => {
+          setShownGiftKeys((prevKeys) => {
+            const availableGiftKeys = pastKeys.filter((key) => !prevKeys.includes(key));
+      
+            // If showGift is false or there are no available gifts, return the previous keys
+            if (!showGift || availableGiftKeys.length === 0) {
+              return prevKeys;
+            }
+      
+            // Show the gift based on the currentGiftIndex
+            const nextGiftKey = availableGiftKeys[0]; // Show the first available gift
+            const count = availableGiftKeys.length;
+            setShowGift(count > 1);
+      
+            return [...prevKeys, nextGiftKey];
+          });
+        }, 3000);
+      
+        return () => clearInterval(interval);
+      }, [pastKeys, showGift]);
+      
+
 
     const calculateGifts = (gifts: any) => {
         const giftsData = gifts.giftsData;
       
-        // console.log('shownGiftKeys' + shownGiftKeys)
+        // Filter available gifts that have not been shown yet
         const availableGiftKeys = Object.keys(giftsData).filter(
           (key) => !shownGiftKeys.includes(key)
         );
@@ -93,14 +78,14 @@ const _UIScreen: React.FC<Props> = ({ question, gifts, updateVotes, deleteGiftFr
         }
       
         // Show the gift based on the currentGiftIndex
-        const currentGiftKey = availableGiftKeys[currentGiftIndex];
+        const currentGiftKey = availableGiftKeys[0]; // Show the first available gift
         const gift = giftsData[currentGiftKey];
       
-        // Check if the gift object is defined before accessing its properties
+        // Check if the gift object is defined before attempting to show it
         if (gift) {
-          console.log('single gift confirmed gift ' + gift);
           return (
             <Box
+              key={currentGiftKey} // Add a unique key to the displayed gift to avoid React warnings
               component="div"
               sx={{
                 width: "90%",
@@ -120,9 +105,12 @@ const _UIScreen: React.FC<Props> = ({ question, gifts, updateVotes, deleteGiftFr
             </Box>
           );
         }
+      
         return null;
       };
       
+
+
 
     return (
         <Grid container spacing={2} sx={{ height: '100vh' }}>
