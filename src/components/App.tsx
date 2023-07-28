@@ -57,7 +57,6 @@ class _App extends React.Component<AppProps, AppState> {
     };
 
     render() {
-        {console.log('gifts right here234: ' + JSON.stringify(this.props.gifts))}
         return (
             <AspectRatio
                 ratio="9/16"

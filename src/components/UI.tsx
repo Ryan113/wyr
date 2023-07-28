@@ -18,7 +18,7 @@ interface Props {
 
 const _UIScreen: React.FC<Props> = ({ question, gifts, updateVotes, deleteGiftFromData }) => {
 
-    console.log("gifts " + JSON.stringify(gifts));
+    // console.log("gifts " + JSON.stringify(gifts));
 
     let currentQuestion = question.question;
     let answerAText = question.answerA.text;
@@ -26,10 +26,12 @@ const _UIScreen: React.FC<Props> = ({ question, gifts, updateVotes, deleteGiftFr
     let answerBText = question.answerB.text;
     let answerBVotes = question.answerB.votes;
 
-    const pastKeys: string[] = []
-
     const [currentGiftIndex, setCurrentGiftIndex] = useState(0);
     const [showGift, setShowGift] = useState(true); // State to control gift display
+    const [shownGiftKeys, setShownGiftKeys] = useState<string[]>([]);
+
+
+    const pastKeys: string[] = Object.keys(gifts.giftsData);
 
     // Add the useEffect hook to update the displayed gift index every 3 seconds
     useEffect(() => {
@@ -38,81 +40,66 @@ const _UIScreen: React.FC<Props> = ({ question, gifts, updateVotes, deleteGiftFr
             setTimeout(() => setShowGift(false), 3000);
         } else {
             const interval = setInterval(() => {
-                setCurrentGiftIndex((prevIndex) => (prevIndex + 1) % pastKeys.length);
+                setCurrentGiftIndex((prevIndex) => {
+                    // Calculate the next valid gift index
+                    let nextIndex = (prevIndex + 1) % pastKeys.length;
+                    while (shownGiftKeys.includes(pastKeys[nextIndex])) {
+                        nextIndex = (nextIndex + 1) % pastKeys.length;
+                    }
+                    return nextIndex;
+                });
             }, 3000);
 
             return () => clearInterval(interval);
         }
-    }, [pastKeys.length]);
+    }, [pastKeys.length, shownGiftKeys]); // Add shownGiftKeys as a dependency
+
+
 
     const calculateGifts = (gifts: any) => {
         const giftsData = gifts.giftsData;
-        const pastKeys: string[] = Object.keys(giftsData);
-      
-        // If there's only one gift, directly show it without cycling through
-        if (pastKeys.length === 1) {
-          const gift = giftsData[pastKeys[0]];
-      
-          // Check if the gift object is defined before accessing its properties
-          if (gift) {
-            return (
-              <Box
-                component="div"
-                sx={{
-                  width: "90%",
-                  height: "80%",
-                  backgroundColor: "rgba(255, 255, 255, 0.8)",
-                  borderRadius: "40px",
-                  border: "12px solid black",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  marginTop: "-600px",
-                }}
-              >
-                <Typography sx={{ color: "black", fontSize: 60, textAlign: "center" }}>
-                  {gift.uniqueId}: votes {gift.giftId} x{gift.repeatCount}
-                </Typography>
-              </Box>
-            );
-          }
-        }
-      
-        // If there are multiple gifts, show them one after another based on currentGiftIndex
-        const currentGiftKey = pastKeys[currentGiftIndex];
+        const availableGiftKeys = Object.keys(giftsData).filter(
+            (key) => !shownGiftKeys.includes(key)
+        );
+
+        // Show the gift based on the currentGiftIndex
+        const currentGiftKey = availableGiftKeys[currentGiftIndex];
         const gift = giftsData[currentGiftKey];
-      
+
+        // If there are no more available gifts to show, return null
+        if (availableGiftKeys.length === 0) {
+            return null;
+        }
+
         // Check if the current gift object is defined before accessing its properties
         if (gift) {
-          return (
-            <Box
-              component="div"
-              sx={{
-                width: "90%",
-                height: "80%",
-                backgroundColor: "rgba(255, 255, 255, 0.8)",
-                borderRadius: "40px",
-                border: "12px solid black",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                marginTop: "-600px",
-              }}
-            >
-              <Typography sx={{ color: "black", fontSize: 60, textAlign: "center" }}>
-                {gift.uniqueId}: votes {gift.giftId} x{gift.repeatCount}
-              </Typography>
-            </Box>
-          );
+            console.log('gift confirmed:', gift);
+            return (
+                <Box
+                    component="div"
+                    sx={{
+                        width: "90%",
+                        height: "80%",
+                        backgroundColor: "rgba(255, 255, 255, 0.8)",
+                        borderRadius: "40px",
+                        border: "12px solid black",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        marginTop: "-600px",
+                    }}
+                >
+                    <Typography sx={{ color: "black", fontSize: 60, textAlign: "center" }}>
+                        {gift.uniqueId}: votes {gift.giftId} x{gift.repeatCount}
+                    </Typography>
+                </Box>
+            );
         }
-      
+
         // Return null if the current gift is undefined to avoid rendering anything
         return null;
-      };
-      
-      
+    };
 
-    // console.log(calculateGifts(gifts));
 
     return (
         <Grid container spacing={2} sx={{ height: '100vh' }}>
