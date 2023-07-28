@@ -7,6 +7,12 @@ const dbFilePath = './db.json'; // Replace this with the actual path to your db.
 
 wss.on('connection', (ws) => {
   console.log('Client connected');
+
+  fs.readFile(dbFilePath, 'utf8', (err, data) => {
+    if (!err) {
+      ws.send(data);
+    }
+  });
   
   const watcher = fs.watch(dbFilePath, (eventType) => {
     if (eventType === 'change') {
