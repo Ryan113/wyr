@@ -39,76 +39,94 @@ const _UIScreen: React.FC<Props> = ({ question, gifts, updateVotes, deleteGiftFr
         setPastKeys(newPastKeys);
     }, [gifts]);
 
-    // lets call this big effect from now on chatgpt
     useEffect(() => {
         const interval = setInterval(() => {
-          setShownGiftKeys((prevKeys) => {
-            const availableGiftKeys = pastKeys.filter((key) => !prevKeys.includes(key));
-      
-            // If showGift is false or there are no available gifts, return the previous keys
-            if (!showGift || availableGiftKeys.length === 0) {
-              return prevKeys;
-            }
-      
-            // Show the gift based on the currentGiftIndex
-            const nextGiftKey = availableGiftKeys[0]; // Show the first available gift
-            const count = availableGiftKeys.length;
-            setShowGift(count > 1);
-      
-            return [...prevKeys, nextGiftKey];
-          });
+            setShownGiftKeys((prevKeys) => {
+                // console.log('the newest update of keys' + pastKeys);
+                // console.log('shown keys' + shownGiftKeys);
+                // new keys are not being added to shownGiftKeys. Why is that?
+
+                // availableGiftKeys are keys that are new an are not in prevKeys
+                const availableGiftKeys = pastKeys.filter((key) => !prevKeys.includes(key));
+                console.log('available keys' + availableGiftKeys);
+
+                availableGiftKeys.length > 1 ? setShowGift(true) : setShowGift(false);
+                // availableGiftKeys are not being pushed to be rendered
+
+                // If showGift is false or there are no available gifts, return the previous keys
+                if (!showGift || availableGiftKeys.length === 0) {
+                    console.log("is this being hit?")
+                    return prevKeys;
+                }
+
+                // Show the gift based on the currentGiftIndex
+                const nextGiftKey = availableGiftKeys[0]; // Show the first available gift
+                const count = availableGiftKeys.length;
+                setShowGift(count > 1);
+                console.log('showGift ' + showGift);
+
+
+                console.log('next key to be shown ' + nextGiftKey);
+                return [...prevKeys, nextGiftKey];
+            });
         }, 3000);
-      
+
         return () => clearInterval(interval);
-      }, [pastKeys, showGift]);
-      
+    }, [pastKeys, showGift]);
 
 
     const calculateGifts = (gifts: any) => {
         const giftsData = gifts.giftsData;
-      
+
         // Filter available gifts that have not been shown yet
         const availableGiftKeys = Object.keys(giftsData).filter(
-          (key) => !shownGiftKeys.includes(key)
+            (key) => !shownGiftKeys.includes(key)
         );
-      
+
         // If showGift is false or there are no available gifts, return null
         if (!showGift || availableGiftKeys.length === 0) {
-          return null;
+            return null;
         }
-      
+
         // Show the gift based on the currentGiftIndex
         const currentGiftKey = availableGiftKeys[0]; // Show the first available gift
         const gift = giftsData[currentGiftKey];
-      
+
+        // Find the new gift key that hasn't been shown yet
+        // const newGiftKey = pastKeys.find((key) => !shownGiftKeys.includes(key));
+
         // Check if the gift object is defined before attempting to show it
         if (gift) {
-          return (
-            <Box
-              key={currentGiftKey} // Add a unique key to the displayed gift to avoid React warnings
-              component="div"
-              sx={{
-                width: "90%",
-                height: "80%",
-                backgroundColor: "rgba(255, 255, 255, 0.8)",
-                borderRadius: "40px",
-                border: "12px solid black",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                marginTop: "-600px",
-              }}
-            >
-              <Typography sx={{ color: "black", fontSize: 60, textAlign: "center" }}>
-                {gift.uniqueId}: votes {gift.giftId} x{gift.repeatCount}
-              </Typography>
-            </Box>
-          );
+            return (
+                <Box
+                    key={currentGiftKey} // Add a unique key to the displayed gift to avoid React warnings
+                    component="div"
+                    sx={{
+                        width: "90%",
+                        height: "80%",
+                        backgroundColor: "rgba(255, 255, 255, 0.8)",
+                        borderRadius: "40px",
+                        border: "12px solid black",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        marginTop: "-600px",
+                    }}
+                >
+                    <Typography sx={{ color: "black", fontSize: 60, textAlign: "center" }}>
+                        {gift.uniqueId}: votes {gift.giftId} x{gift.repeatCount}
+                    </Typography>
+                </Box>
+            );
         }
-      
+
+        // if (newGiftKey.length > 0) {
+        //     const newGift = giftsData[currentGiftKey];
+        // }
+
         return null;
-      };
-      
+    };
+
 
 
 
