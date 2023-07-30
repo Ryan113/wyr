@@ -1,74 +1,44 @@
 {
-  "cat": {
-    "uniqueId": "cat",
-    "userId": "6852521998133363717",
-    "giftId": 5655,
-    "repeatCount": 1
-  },
   "071cc7d0-f39a-4821-8f8f-d50f231e4d78": {
-    "uniqueId": "jameyjohnson648",
+    "uniqueId": "shit",
     "userId": "6852521998133363717",
     "giftId": 5655,
+    "giftName": "Rose",
     "repeatCount": 1
   },
-  "2e92c0ae-06c6-4c4b-853b-5a1b20c5b3fd": {
-    "uniqueId": "dashmcash",
+  "071cc7d0-f39a-8f8f-d50f231e4d78": {
+    "uniqueId": "fuck",
+    "userId": "6852521998133363717",
+    "giftId": 5655,
+    "giftName": "Rose",
+    "repeatCount": 1
+  },
+  "071cc7d0-f39a-4821-d50f231e4d78": {
+    "uniqueId": "titties",
+    "userId": "6852521998133363717",
+    "giftId": 5655,
+    "giftName": "Rose",
+    "repeatCount": 1
+  },
+  "d5174994-3f21-47bf-b005-96a70f7560d1": {
+    "uniqueId": "Chili",
     "userId": "6917321322297820165",
     "giftId": 5655,
+    "giftName": "Rose",
     "repeatCount": 1
   },
-  "18380950-8cb7-4d55-8510-d8e15bfa89e0": {
-    "uniqueId": "billy",
-    "userId": "7144239431885407278",
+  "00303a59-5e7d-470d-845a-22ad45194988": {
+    "uniqueId": "Fire",
+    "userId": "6917321322297820165",
     "giftId": 5655,
-    "repeatCount": 46
-  },
-  "8de1d53c-ac6a-4ff0-b2d3-7061ec26ccaa": {
-    "uniqueId": "steve",
-    "userId": "7144239431885407278",
-    "giftId": 5655,
-    "repeatCount": 56
-  },
-  "5eb7e6b5-50a8-480f-a936-810836c1a5ef": {
-    "uniqueId": "teddy",
-    "userId": "7144239431885407278",
-    "giftId": 5655,
-    "repeatCount": 60
-  },
-  "c99fb601-1bd6-4a20-9628-b164e12d42ef": {
-    "uniqueId": "disred4",
-    "userId": "7144239431885407278",
-    "giftId": 5655,
+    "giftName": "Rose",
     "repeatCount": 1
   },
-  "asd": {
-    "uniqueId": "mark",
-    "userId": "7144239431885407278",
+  "fddf0d1e-bbfd-4c5d-afad-54471ae7a6bc": {
+    "uniqueId": "Cap",
+    "userId": "6917321322297820165",
     "giftId": 5655,
-    "repeatCount": 1
-  },
-  "563456asdasd3456": {
-    "uniqueId": "Tigerlilly",
-    "userId": "7144239431885407278",
-    "giftId": 5655,
-    "repeatCount": 1
-  },
-  "4334252345": {
-    "uniqueId": "belly",
-    "userId": "7144239431885407278",
-    "giftId": 5655,
-    "repeatCount": 1
-  },
-  "asdqweqwe": {
-    "uniqueId": "Tigerlilly",
-    "userId": "7144239431885407278",
-    "giftId": 5655,
-    "repeatCount": 1
-  },
-  "433425wqeqwqeweqw2345": {
-    "uniqueId": "belly",
-    "userId": "7144239431885407278",
-    "giftId": 5655,
+    "giftName": "Rose",
     "repeatCount": 1
   }
 }

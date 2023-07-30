@@ -6,15 +6,20 @@ import { getGiftsData, updateVotes, deleteGiftFromData } from "../actions";
 import { StoreState } from "../reducers";
 import { Box } from '@mui/material';
 import cat from '../assets/cat.png';
-import { Gifts, Question, Votes } from "../actions";
+import { Gifts, Question, Votes, Gift } from "../actions";
 
 
 interface Props {
     question: Question; // Replace 'Question' with the actual type for your 'question'
     gifts: Gifts; // Replace 'Gifts' with the actual type for your 'gifts' data
-    updateVotes: (votes: Votes) => void; // Correct the type for updateVotes
+    updateVotes: (votes: any) => void; // Correct the type for updateVotes
     deleteGiftFromData: (key: string) => void;
 }
+
+// Define the type for the giftsData object
+type GiftsData = {
+    [key: string]: Gift;
+};
 
 const _UIScreen: React.FC<Props> = ({ question, gifts, updateVotes, deleteGiftFromData }) => {
 
@@ -26,12 +31,62 @@ const _UIScreen: React.FC<Props> = ({ question, gifts, updateVotes, deleteGiftFr
     let answerBText = question.answerB.text;
     let answerBVotes = question.answerB.votes;
 
-    const [currentGiftIndex, setCurrentGiftIndex] = useState(0);
     const [showGift, setShowGift] = useState(true); // State to control gift display
     const [shownGiftKeys, setShownGiftKeys] = useState<string[]>([]);
+    const [anser, setAnswer] = useState<string>('');
+    const [userVote, setUserVote] = useState<number>(0);
+    const [voteA, setVoteA] = useState<number>(0);
+    const [voteB, setVoteB] = useState<number>(0);
 
     // Store gifts data in pastKeys state
     const [pastKeys, setPastKeys] = useState<string[]>(Object.keys(gifts.giftsData));
+
+
+
+    // rose = 1
+    // fire = 5
+    // Doughnut = 30
+    // Cap 99
+
+    // chili = 1
+    // panda = 5
+    // choco strawberries = 30
+    // hat and mustache = 99
+
+    function giftToVoteConverter(giftName: any) {
+        console.log('we in this bbitch');
+        switch (giftName) {
+            case "Rose":
+                setVoteA((prevVoteA) => prevVoteA + 1);
+                break;
+            case "Fire":
+                setVoteA((prevVoteA) => prevVoteA + 5);
+                break;
+            case "Doughnut":
+                setVoteA((prevVoteA) => prevVoteA + 30);
+                break;
+            case "Cap":
+                setVoteA((prevVoteA) => prevVoteA + 99);
+                break;
+            case "Chili":
+                setVoteB((prevVoteB) => prevVoteB + 1);
+                break;
+            case "Panda":
+                setVoteB((prevVoteB) => prevVoteB + 5);
+                break;
+            case "Choco Strawberries":
+                setVoteB((prevVoteB) => prevVoteB + 30);
+                break;
+            case "Hat and Mustache":
+                setVoteB((prevVoteB) => prevVoteB + 99);
+                break;
+            default:
+                setVoteA(0);
+                setVoteB(0);
+                break;
+        }
+    }
+    
 
     // Update pastKeys whenever gifts change
     useEffect(() => {
@@ -42,16 +97,14 @@ const _UIScreen: React.FC<Props> = ({ question, gifts, updateVotes, deleteGiftFr
     useEffect(() => {
         const interval = setInterval(() => {
             setShownGiftKeys((prevKeys) => {
-                // console.log('the newest update of keys' + pastKeys);
-                // console.log('shown keys' + shownGiftKeys);
-                // new keys are not being added to shownGiftKeys. Why is that?
 
                 // availableGiftKeys are keys that are new an are not in prevKeys
                 const availableGiftKeys = pastKeys.filter((key) => !prevKeys.includes(key));
-                console.log('available keys' + availableGiftKeys);
+                // console.log('available keys' + availableGiftKeys.length);
 
+                // if a gift is not showing this is most likely the issue
+                // this shit is broken
                 availableGiftKeys.length > 1 ? setShowGift(true) : setShowGift(false);
-                // availableGiftKeys are not being pushed to be rendered
 
                 // If showGift is false or there are no available gifts, return the previous keys
                 if (!showGift || availableGiftKeys.length === 0) {
@@ -63,17 +116,29 @@ const _UIScreen: React.FC<Props> = ({ question, gifts, updateVotes, deleteGiftFr
                 const nextGiftKey = availableGiftKeys[0]; // Show the first available gift
                 const count = availableGiftKeys.length;
                 setShowGift(count > 1);
-                console.log('showGift ' + showGift);
+                // console.log('showGift ' + showGift);
 
+                const foundKey = Object.keys(gifts.giftsData).find(key => key === nextGiftKey);
+                if (foundKey) {
+                    // Typescript is getting annoying
+                    // @ts-ignore
+                    const giftName = gifts.giftsData[foundKey].giftName;
+                    giftToVoteConverter(giftName)
+                    console.log('giftName' + giftName);
+                    // setUserGiftName(giftName as string);
+                    // giftToVoteConverter(giftName)
+                    // set the state then run this
+                    // getGiftValue(giftName);
+                    // Rest of the code...
+                }
 
-                console.log('next key to be shown ' + nextGiftKey);
+                setAnswer('answerA')
                 return [...prevKeys, nextGiftKey];
             });
         }, 3000);
 
         return () => clearInterval(interval);
     }, [pastKeys, showGift]);
-
 
     const calculateGifts = (gifts: any) => {
         const giftsData = gifts.giftsData;
@@ -92,11 +157,9 @@ const _UIScreen: React.FC<Props> = ({ question, gifts, updateVotes, deleteGiftFr
         const currentGiftKey = availableGiftKeys[0]; // Show the first available gift
         const gift = giftsData[currentGiftKey];
 
-        // Find the new gift key that hasn't been shown yet
-        // const newGiftKey = pastKeys.find((key) => !shownGiftKeys.includes(key));
-
         // Check if the gift object is defined before attempting to show it
         if (gift) {
+
             return (
                 <Box
                     key={currentGiftKey} // Add a unique key to the displayed gift to avoid React warnings
@@ -113,16 +176,12 @@ const _UIScreen: React.FC<Props> = ({ question, gifts, updateVotes, deleteGiftFr
                         marginTop: "-600px",
                     }}
                 >
-                    <Typography sx={{ color: "black", fontSize: 60, textAlign: "center" }}>
-                        {gift.uniqueId}: votes {gift.giftId} x{gift.repeatCount}
+                    <Typography sx={{ color: "black", fontWeight: 'bold', fontSize: 60, textAlign: "center" }}>
+                        {gift.uniqueId}: votes {gift.giftName} x{gift.repeatCount}
                     </Typography>
                 </Box>
             );
         }
-
-        // if (newGiftKey.length > 0) {
-        //     const newGift = giftsData[currentGiftKey];
-        // }
 
         return null;
     };
@@ -201,7 +260,7 @@ const _UIScreen: React.FC<Props> = ({ question, gifts, updateVotes, deleteGiftFr
                         </Typography>
 
                         <Typography sx={{ color: "black", fontSize: 64, textAlign: 'center' }}>
-                            Votes: {answerAVotes}
+                            Votes: {voteA}
                         </Typography>
                     </Box>
 
@@ -228,7 +287,7 @@ const _UIScreen: React.FC<Props> = ({ question, gifts, updateVotes, deleteGiftFr
                         </Typography>
 
                         <Typography sx={{ color: "black", fontSize: 64, textAlign: 'center' }}>
-                            Votes: {answerBVotes}
+                            Votes: {voteB}
                         </Typography>
                     </Box>
 

@@ -16,6 +16,15 @@ export interface Gifts {
   };
 }
 
+// dammit well at least im learning
+export interface Gift {
+  uniqueId: string;
+  userId: string;
+  giftId: number;
+  giftName: string;
+  repeatCount: number;
+}
+
 export interface GetGiftsAction {
   type: ActionTypes.getGifts;
   payload: any;

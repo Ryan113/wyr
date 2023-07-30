@@ -15,12 +15,20 @@ export interface Question {
     };
 }
 
+// export interface Votes {
+//     [key: string]: {
+//         votes: number
+//     }
+// }
+
 export interface Votes {
-    [key: string]: {
-        // text: string,
-        votes: number
-    }
-}
+    answerA?: {
+      votes: number;
+    };
+    answerB?: {
+      votes: number;
+    };
+  }
 
 export interface GetQuestionsAction {
     type: ActionTypes.questions,
@@ -34,7 +42,7 @@ export interface GetQuestionAction {
 
 export interface UpdateVotesAction {
     type: ActionTypes.updateVotesType,
-    payload: Votes
+    payload: any
 }
 
 
@@ -55,11 +63,11 @@ export const getQuestion = (id: number): GetQuestionAction => {
     };
 };
 
-export const updateVotes = (votes: Votes) => {
+export const updateVotes = (votes: any) => {
     return (dispatch: Dispatch) => {
-        dispatch<UpdateVotesAction>({
-            type: ActionTypes.updateVotesType,
-            payload: votes
-        })
-    }
-}
+      dispatch({
+        type: ActionTypes.updateVotesType,
+        payload: votes,
+      });
+    };
+  };
