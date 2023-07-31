@@ -6,7 +6,11 @@ import { getGiftsData, updateVotes, deleteGiftFromData } from "../actions";
 import { StoreState } from "../reducers";
 import { Box } from '@mui/material';
 import cat from '../assets/cat.png';
+import board from '../assets/vote_board.png';
+import four from '../assets/4.png';
+import three from '../assets/3.png';
 import { Gifts, Question, Votes, Gift } from "../actions";
+import "./voteBox.css";
 
 
 interface Props {
@@ -37,6 +41,12 @@ const _UIScreen: React.FC<Props> = ({ question, gifts, updateVotes, deleteGiftFr
     const [userVote, setUserVote] = useState<number>(0);
     const [voteA, setVoteA] = useState<number>(0);
     const [voteB, setVoteB] = useState<number>(0);
+    const [isIncrementingA, setIsIncrementingA] = useState<boolean>(false);
+    const [isIncrementingB, setIsIncrementingB] = useState<boolean>(false);
+    const [voteABackgroundColor, setVoteABackgroundColor] = useState<string>('rgba(255, 255, 255, 0.8)');
+    const [voteBBackgroundColor, setVoteBBackgroundColor] = useState<string>('rgba(255, 255, 255, 0.8)');
+
+
 
     // Store gifts data in pastKeys state
     const [pastKeys, setPastKeys] = useState<string[]>(Object.keys(gifts.giftsData));
@@ -51,12 +61,19 @@ const _UIScreen: React.FC<Props> = ({ question, gifts, updateVotes, deleteGiftFr
     // choco strawberries = 30
     // hat and mustache = 99
 
-    // you need to verifty that each vote is working
-
     function smoothIncrement(setVoteFunction: (value: number) => void, incrementBy: number) {
         const delay = 100; // Delay between each vote increment (in milliseconds)
         const totalIncrements = incrementBy; // Total number of increments for the smooth effect
         let currentIncrement = 0;
+
+        // Set the corresponding incrementing state variable to true when starting the increment
+        if (setVoteFunction === setVoteA) {
+            setIsIncrementingA(true);
+            setIsIncrementingB(false);
+        } else if (setVoteFunction === setVoteB) {
+            setIsIncrementingB(true);
+            setIsIncrementingA(false);
+        }
 
         function increment() {
             //@ts-ignore
@@ -254,7 +271,8 @@ const _UIScreen: React.FC<Props> = ({ question, gifts, updateVotes, deleteGiftFr
                         sx={{
                             width: '90%',
                             height: '50%',
-                            backgroundColor: 'rgba(255, 255, 255, 0.8)', // Replace this with your desired background color or image
+                            backgroundColor: isIncrementingA ? 'rgba(144, 238, 144, 0.8)' : 'rgba(255, 255, 255, 0.8)',
+                            // backgroundColor: 'rgba(255, 255, 255, 0.8)', // Replace this with your desired background color or image
                             borderRadius: '40px', // Adjust the value to control the roundness of the edges
                             border: '12px solid black', // Add a black solid border
                             display: 'flex',
@@ -287,7 +305,8 @@ const _UIScreen: React.FC<Props> = ({ question, gifts, updateVotes, deleteGiftFr
                         sx={{
                             width: '90%',
                             height: '50%',
-                            backgroundColor: 'rgba(255, 255, 255, 0.8)', // Replace this with your desired background color or image
+                            backgroundColor: isIncrementingB ? 'rgba(144, 238, 144, 0.8)' : 'rgba(255, 255, 255, 0.8)',
+                            // backgroundColor: 'rgba(255, 255, 255, 0.8)', // Replace this with your desired background color or image
                             borderRadius: '40px', // Adjust the value to control the roundness of the edges
                             border: '12px solid black', // Add a black solid border
                             display: 'flex',
@@ -371,7 +390,10 @@ const _UIScreen: React.FC<Props> = ({ question, gifts, updateVotes, deleteGiftFr
                         component="div"
                         sx={{
                             width: '90%',
-                            height: '120%',
+                            height: '160%',
+                            backgroundImage: `url(${four})`,
+                            backgroundSize: '850px 650px', // Set the background image size to cover the container
+                            backgroundRepeat: 'no-repeat',
                             backgroundColor: 'rgba(255, 255, 255, 0.8)', // Replace this with your desired background color or image
                             borderRadius: '40px', // Adjust the value to control the roundness of the edges
                             border: '12px solid black', // Add a black solid border
@@ -379,10 +401,32 @@ const _UIScreen: React.FC<Props> = ({ question, gifts, updateVotes, deleteGiftFr
                             justifyContent: 'center',
                             alignItems: 'center',
                             marginTop: '-300px', // Move baby box 1 up by 20px
+                            backgroundPosition: 'center 30px',
                         }}
                     >
-                        <Typography sx={{ color: "black", fontSize: 74, textAlign: 'center' }}>
-                            Image of vote values
+                        <Typography
+                            sx={{
+                                color: 'black',
+                                fontWeight: 'bold',
+                                fontSize: 45,
+                                textAlign: 'center',
+                                mr: '270px', // Add margin-right (space between typographies)
+                                marginTop: '-470px', // Move typography up by 150px
+                            }}
+                        >
+                            {answerAText}
+                        </Typography>
+                        <Typography
+                            sx={{
+                                color: 'black',
+                                fontSize: 45,
+                                fontWeight: 'bold',
+                                textAlign: 'center',
+                                marginTop: '-470px', // Move typography up by 150px
+                                mr: '90px'
+                            }}
+                        >
+                            {answerBText}
                         </Typography>
                     </Box>
                 </Box>
