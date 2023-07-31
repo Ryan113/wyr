@@ -4,8 +4,8 @@ import { Question, getQuestion, getQuestions, getGiftsData, updateVotes, Votes, 
 import { StoreState } from "../reducers";
 import { Box } from '@mui/material';
 import Typography from "@mui/material/Typography";
-import cat from '../assets/cat.png';    
-import barbie from '../assets/barbie.png';    
+import cat from '../assets/cat.png';
+import barbie from '../assets/barbie.png';
 import op from '../assets/op.png';
 import AspectRatio from '@mui/joy/AspectRatio';
 import { UIScreen } from "./UI";
@@ -21,40 +21,60 @@ interface AppProps {
     getQuestions: () => void,
     getGiftsData: (data: any) => void;
     updateVotes: (votes: Votes) => void;
+    // intervalId: NodeJS.Timeout | null; // Add the intervalId property to the AppState interface
 }
 
 interface AppState {
     questionID: number;
+    intervalId: NodeJS.Timeout | null;
 }
 
 class _App extends React.Component<AppProps, AppState> {
+    private intervalId: NodeJS.Timeout | null = null;
+
     constructor(props: AppProps) {
         super(props);
         this.state = {
-            questionID: 1
+            questionID: 1,
+            intervalId: null,
         };
     }
 
     componentDidMount() {
         this.props.getQuestions();
-        this.props.getQuestion(3);
+        this.props.getQuestion(this.state.questionID);
+
+        // Set an interval to update the question every minute (60000 milliseconds)
+        this.intervalId = setInterval(this.updateQuestion, 600000);
+
         ws.onmessage = (event) => {
             console.log("WebSocket message received: " + event.data);
-      
-            try {
-              const data = JSON.parse(event.data); // Parse the JSON string into an object
-              this.props.getGiftsData(data); // Dispatch the action with the parsed data
-            } catch (error) {
-              console.error("Error parsing WebSocket message:", error);
-            }
-          };
-      }
 
-    onButtonClick = (): void => {
-        const nextQuestionID = this.state.questionID + 1;
-        this.props.getQuestion(nextQuestionID); // Call the action with the updated ID
+            try {
+                const data = JSON.parse(event.data); // Parse the JSON string into an object
+                this.props.getGiftsData(data); // Dispatch the action with the parsed data
+            } catch (error) {
+                console.error("Error parsing WebSocket message:", error);
+            }
+        };
+    }
+
+    componentWillUnmount() {
+        // Clean up the interval when the component unmounts
+        if (this.intervalId) {
+            clearInterval(this.intervalId);
+        }
+    }
+
+    updateQuestion = (): void => {
+        // Increment the questionID and reset it if it exceeds the number of questions
+        //@ts-ignore
+        const nextQuestionID = (this.state.questionID % this.props.questions.questions.length) + 1;
+        console.log("question index: " + nextQuestionID)
+        console.log("state question ID: " + this.state.questionID)
+        console.log("next question ID : " + nextQuestionID)
+        this.props.getQuestion(nextQuestionID);
         this.setState({ questionID: nextQuestionID });
-        console.log('hahahahaha ' + JSON.stringify(this.props.question['question']));
     };
 
     render() {

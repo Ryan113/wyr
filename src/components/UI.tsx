@@ -118,6 +118,12 @@ const _UIScreen: React.FC<Props> = ({ question, gifts, updateVotes, deleteGiftFr
         }
     }
 
+    // Reset vote counts to 0 whenever the question prop changes
+    useEffect(() => {
+        setVoteA(0);
+        setVoteB(0);
+    }, [question]);
+
 
     // Update pastKeys whenever gifts change
     useEffect(() => {
