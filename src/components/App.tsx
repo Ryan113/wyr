@@ -4,7 +4,8 @@ import { Question, getQuestion, getQuestions, getGiftsData, updateVotes, Votes, 
 import { StoreState } from "../reducers";
 import { Box } from '@mui/material';
 import Typography from "@mui/material/Typography";
-import cat from '../assets/cat.png';
+import cat from '../assets/cat.png';    
+import barbie from '../assets/barbie.png';    
 import op from '../assets/op.png';
 import AspectRatio from '@mui/joy/AspectRatio';
 import { UIScreen } from "./UI";

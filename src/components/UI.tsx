@@ -33,15 +33,13 @@ const _UIScreen: React.FC<Props> = ({ question, gifts, updateVotes, deleteGiftFr
 
     const [showGift, setShowGift] = useState(true); // State to control gift display
     const [shownGiftKeys, setShownGiftKeys] = useState<string[]>([]);
-    const [anser, setAnswer] = useState<string>('');
+    const [answer, setAnswer] = useState<string>('');
     const [userVote, setUserVote] = useState<number>(0);
     const [voteA, setVoteA] = useState<number>(0);
     const [voteB, setVoteB] = useState<number>(0);
 
     // Store gifts data in pastKeys state
     const [pastKeys, setPastKeys] = useState<string[]>(Object.keys(gifts.giftsData));
-
-
 
     // rose = 1
     // fire = 5
@@ -53,40 +51,56 @@ const _UIScreen: React.FC<Props> = ({ question, gifts, updateVotes, deleteGiftFr
     // choco strawberries = 30
     // hat and mustache = 99
 
-    function giftToVoteConverter(giftName: any) {
-        console.log('we in this bbitch');
+    // you need to verifty that each vote is working
+
+    function smoothIncrement(setVoteFunction: (value: number) => void, incrementBy: number) {
+        const delay = 100; // Delay between each vote increment (in milliseconds)
+        const totalIncrements = incrementBy; // Total number of increments for the smooth effect
+        let currentIncrement = 0;
+
+        function increment() {
+            //@ts-ignore
+            setVoteFunction((prevVote) => prevVote + incrementBy / totalIncrements);
+            currentIncrement++;
+
+            if (currentIncrement < totalIncrements) {
+                setTimeout(increment, delay);
+            }
+        }
+        increment();
+    }
+
+    function giftToVoteConverter(giftName: string) {
         switch (giftName) {
             case "Rose":
-                setVoteA((prevVoteA) => prevVoteA + 1);
+                smoothIncrement(setVoteA, 1);
                 break;
             case "Fire":
-                setVoteA((prevVoteA) => prevVoteA + 5);
+                smoothIncrement(setVoteA, 5);
                 break;
             case "Doughnut":
-                setVoteA((prevVoteA) => prevVoteA + 30);
+                smoothIncrement(setVoteA, 30);
                 break;
             case "Cap":
-                setVoteA((prevVoteA) => prevVoteA + 99);
+                smoothIncrement(setVoteA, 99);
                 break;
-            case "Chili":
-                setVoteB((prevVoteB) => prevVoteB + 1);
+            case "chili":
+                smoothIncrement(setVoteB, 1);
                 break;
             case "Panda":
-                setVoteB((prevVoteB) => prevVoteB + 5);
+                smoothIncrement(setVoteB, 5);
                 break;
             case "Choco Strawberries":
-                setVoteB((prevVoteB) => prevVoteB + 30);
+                smoothIncrement(setVoteB, 30);
                 break;
             case "Hat and Mustache":
-                setVoteB((prevVoteB) => prevVoteB + 99);
+                smoothIncrement(setVoteB, 99);
                 break;
             default:
-                setVoteA(0);
-                setVoteB(0);
                 break;
         }
     }
-    
+
 
     // Update pastKeys whenever gifts change
     useEffect(() => {
@@ -186,9 +200,6 @@ const _UIScreen: React.FC<Props> = ({ question, gifts, updateVotes, deleteGiftFr
         return null;
     };
 
-
-
-
     return (
         <Grid container spacing={2} sx={{ height: '100vh' }}>
             <Grid item xs={12}>
@@ -217,7 +228,7 @@ const _UIScreen: React.FC<Props> = ({ question, gifts, updateVotes, deleteGiftFr
                         }}
                     >
 
-                        <Typography sx={{ color: "black", fontSize: 74, textAlign: 'center' }}>
+                        <Typography sx={{ color: "black", fontWeight: 'bold', fontSize: 74, textAlign: 'center' }}>
 
                             {currentQuestion}
                         </Typography>
@@ -255,11 +266,17 @@ const _UIScreen: React.FC<Props> = ({ question, gifts, updateVotes, deleteGiftFr
                         }}
                     >
                         {/* baby text 1 */}
-                        <Typography sx={{ color: "black", fontSize: 64, textAlign: 'center' }}>
+                        <Typography sx={{ color: "black", fontSize: 64, fontWeight: 'bold', textAlign: 'center' }}>
                             {answerAText}
                         </Typography>
 
-                        <Typography sx={{ color: "black", fontSize: 64, textAlign: 'center' }}>
+                        <Typography
+                            sx={{
+                                color: "black",
+                                fontSize: 64,
+                                fontWeight: 'bold',
+                                textAlign: 'center',
+                            }}>
                             Votes: {voteA}
                         </Typography>
                     </Box>
@@ -282,17 +299,22 @@ const _UIScreen: React.FC<Props> = ({ question, gifts, updateVotes, deleteGiftFr
                         }}
                     >
 
-                        <Typography sx={{ color: "black", fontSize: 64, textAlign: 'center' }}>
+                        <Typography sx={{ color: "black", fontSize: 64, fontWeight: 'bold', textAlign: 'center' }}>
                             {answerBText}
                         </Typography>
 
                         <Typography sx={{ color: "black", fontSize: 64, textAlign: 'center' }}>
+
+                            {/* Right here. your working on the number incrment so it looks smooth
+                            getting closer
+                            - change color on box updates
+                            - increment questions every 10 
+                            - find a way to prevent db.json from f'ing up 
+                                - ideas of bug: too many votes coming  */}
+                            {/* Vote: 0 Votes: {}  <Counter start={0} end={voteB} delay={10} /> */}
                             Votes: {voteB}
                         </Typography>
                     </Box>
-
-
-
                 </Box>
             </Grid>
 
