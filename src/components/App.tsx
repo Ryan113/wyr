@@ -37,7 +37,7 @@ class _App extends React.Component<AppProps, AppState> {
 
     componentDidMount() {
         this.props.getQuestions();
-        this.props.getQuestion(1);
+        this.props.getQuestion(3);
         ws.onmessage = (event) => {
             console.log("WebSocket message received: " + event.data);
       

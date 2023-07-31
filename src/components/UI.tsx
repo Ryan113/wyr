@@ -235,13 +235,14 @@ const _UIScreen: React.FC<Props> = ({ question, gifts, updateVotes, deleteGiftFr
                         component="div"
                         sx={{
                             width: '90%',
-                            height: '70%',
+                            height: '400px',
                             backgroundColor: 'rgba(255, 255, 255, 0.8)', // Replace this with your desired background color or image
                             borderRadius: '40px', // Adjust the value to control the roundness of the edges
                             border: '12px solid black', // Add a black solid border
                             display: 'flex',
                             justifyContent: 'center',
                             alignItems: 'center',
+                            marginTop: '-100px', // Move the box up by 100 pixels
                         }}
                     >
 
@@ -270,7 +271,7 @@ const _UIScreen: React.FC<Props> = ({ question, gifts, updateVotes, deleteGiftFr
                         component="div"
                         sx={{
                             width: '90%',
-                            height: '50%',
+                            height: '55%',
                             backgroundColor: isIncrementingA ? 'rgba(144, 238, 144, 0.8)' : 'rgba(255, 255, 255, 0.8)',
                             // backgroundColor: 'rgba(255, 255, 255, 0.8)', // Replace this with your desired background color or image
                             borderRadius: '40px', // Adjust the value to control the roundness of the edges
@@ -280,7 +281,7 @@ const _UIScreen: React.FC<Props> = ({ question, gifts, updateVotes, deleteGiftFr
                             flexDirection: 'column', // Set flexDirection to 'column'
                             alignItems: 'center',
                             margin: '40px', // Add padding to baby box 1
-                            marginTop: '-50px', // Move baby box 1 up by 20px
+                            marginTop: '-130px', // Move baby box 1 up by 20px
                         }}
                     >
                         {/* baby text 1 */}
@@ -304,7 +305,7 @@ const _UIScreen: React.FC<Props> = ({ question, gifts, updateVotes, deleteGiftFr
                         component="div"
                         sx={{
                             width: '90%',
-                            height: '50%',
+                            height: '55%',
                             backgroundColor: isIncrementingB ? 'rgba(144, 238, 144, 0.8)' : 'rgba(255, 255, 255, 0.8)',
                             // backgroundColor: 'rgba(255, 255, 255, 0.8)', // Replace this with your desired background color or image
                             borderRadius: '40px', // Adjust the value to control the roundness of the edges
@@ -314,7 +315,7 @@ const _UIScreen: React.FC<Props> = ({ question, gifts, updateVotes, deleteGiftFr
                             flexDirection: 'column', // Set flexDirection to 'column'
                             alignItems: 'center',
                             margin: '40px', // Add padding to baby box 1
-                            marginTop: '-50px', // Move baby box 1 up by 20px
+                            marginTop: '-130px', // Move baby box 1 up by 20px
                         }}
                     >
 
@@ -392,7 +393,7 @@ const _UIScreen: React.FC<Props> = ({ question, gifts, updateVotes, deleteGiftFr
                             width: '90%',
                             height: '160%',
                             backgroundImage: `url(${four})`,
-                            backgroundSize: '850px 650px', // Set the background image size to cover the container
+                            backgroundSize: '750px 600px', // Set the background image size to cover the container
                             backgroundRepeat: 'no-repeat',
                             backgroundColor: 'rgba(255, 255, 255, 0.8)', // Replace this with your desired background color or image
                             borderRadius: '40px', // Adjust the value to control the roundness of the edges
@@ -400,34 +401,51 @@ const _UIScreen: React.FC<Props> = ({ question, gifts, updateVotes, deleteGiftFr
                             display: 'flex',
                             justifyContent: 'center',
                             alignItems: 'center',
-                            marginTop: '-300px', // Move baby box 1 up by 20px
-                            backgroundPosition: 'center 30px',
+                            marginTop: '-300px', // Move the main box up by 300px
+                            backgroundPosition: 'center 40px',
                         }}
                     >
-                        <Typography
+                        {/* First child box with light blue background */}
+                        <Box
                             sx={{
-                                color: 'black',
-                                fontWeight: 'bold',
-                                fontSize: 45,
-                                textAlign: 'center',
-                                mr: '270px', // Add margin-right (space between typographies)
-                                marginTop: '-470px', // Move typography up by 150px
+                                flex: '1 1 50%', // Take up 50% of the available space
+                                height: '100%', // Take up 100% of the height of the parent box
+                                // backgroundColor: 'lightblue', // Replace this with your desired background color
+                                borderRadius: '20px', // Adjust the value to control the roundness of the edges
                             }}
                         >
-                            {answerAText}
-                        </Typography>
-                        <Typography
+                            <Typography
+                                sx={{
+                                    color: 'black',
+                                    fontWeight: 'bold',
+                                    fontSize: 55,
+                                    textAlign: 'center',
+                                }}
+                            >
+                                {answerAText}
+                            </Typography>
+                        </Box>
+
+                        {/* Second child box with light red background */}
+                        <Box
                             sx={{
-                                color: 'black',
-                                fontSize: 45,
-                                fontWeight: 'bold',
-                                textAlign: 'center',
-                                marginTop: '-470px', // Move typography up by 150px
-                                mr: '90px'
+                                flex: '1 1 50%', // Take up 50% of the available space
+                                height: '100%', // Take up 100% of the height of the parent box
+                                // backgroundColor: 'lightred', // Replace this with your desired background color
+                                borderRadius: '20px', // Adjust the value to control the roundness of the edges
                             }}
                         >
-                            {answerBText}
-                        </Typography>
+                            <Typography
+                                sx={{
+                                    color: 'black',
+                                    fontSize: 55,
+                                    fontWeight: 'bold',
+                                    textAlign: 'center',
+                                }}
+                            >
+                                {answerBText}
+                            </Typography>
+                        </Box>
                     </Box>
                 </Box>
             </Grid>
