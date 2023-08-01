@@ -8,10 +8,17 @@ import { Box } from '@mui/material';
 import cat from '../assets/cat.png';
 import board from '../assets/vote_board.png';
 import four from '../assets/4.png';
-import three from '../assets/3.png';
+import three from '../assets/3x.png';
 import { Gifts, Question, Votes, Gift } from "../actions";
 import "./voteBox.css";
-
+import rose from "../assets/rose.png"
+import fire from "../assets/fire.png"
+import cap from "../assets/cap.png"
+import chili from "../assets/chili.png"
+import doughnut from "../assets/doughnut.png"
+import choco_strawberries from "../assets/choco_strawberries.png"
+import hat_mustache from "../assets/hat_mustache.png"
+import panda from "../assets/panda.png"
 
 interface Props {
     question: Question; // Replace 'Question' with the actual type for your 'question'
@@ -91,6 +98,7 @@ const _UIScreen: React.FC<Props> = ({ question, gifts, updateVotes, deleteGiftFr
         switch (giftName) {
             case "Rose":
                 smoothIncrement(setVoteA, 1);
+                return <img src={rose} alt="Rose" height={"10px"} width={"10px"} />
                 break;
             case "Fire":
                 smoothIncrement(setVoteA, 5);
@@ -115,6 +123,45 @@ const _UIScreen: React.FC<Props> = ({ question, gifts, updateVotes, deleteGiftFr
                 break;
             default:
                 break;
+        }
+    }
+
+    function imageStyle(giftName: string, value: number) {
+        const height: string = "80px";
+        const width: string = "80px";
+        const marginBottom: string = "20px";
+        console.log('giftname: ' + giftName)
+        return <img src={giftName} alt={giftName} height={height} width={width} style={{ marginBottom }} />
+    };
+
+    function giftToImageConverter(giftName: string) {
+        const height: string = "120px";
+        const width: string = "120px";
+        const marginBottom: string = "-30px";
+        switch (giftName) {
+            case "Rose":
+                return <img src={fire} alt="Fire" height={height} width={width} style={{ marginBottom }} />
+            case "Fire":
+                return <img src={fire} alt="Fire" height={height} width={width} style={{ marginBottom }} />
+            case "Doughnut":
+                return <img src={doughnut} alt="doughnut" height={height} width={width} style={{ marginBottom }} />
+            case "Cap":
+                return <img src={cap} alt="cap" height={height} width={width} style={{ marginBottom }} />
+
+            case "chili":
+                return <img src={chili} alt="chili" height={height} width={width} style={{ marginBottom }} />
+
+            case "Panda":
+                return <img src={panda} alt="panda" height={height} width={width} style={{ marginBottom }} />
+
+            case "Choco Strawberries":
+                return <img src={choco_strawberries} alt="choco_straberries" height={height} width={width} style={{ marginBottom }} />
+
+            case "Hat and Mustache":
+                return <img src={hat_mustache} alt="hat_mustache" height={height} width={width} style={{ marginBottom }} />
+
+            default:
+
         }
     }
 
@@ -214,7 +261,7 @@ const _UIScreen: React.FC<Props> = ({ question, gifts, updateVotes, deleteGiftFr
                     }}
                 >
                     <Typography sx={{ color: "black", fontWeight: 'bold', fontSize: 60, textAlign: "center" }}>
-                        {gift.uniqueId}: votes {gift.giftName} x{gift.repeatCount}
+                        {gift.uniqueId} votes {giftToImageConverter(gift.giftName)} x{gift.repeatCount}
                     </Typography>
                 </Box>
             );
