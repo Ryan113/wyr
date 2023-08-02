@@ -1,5 +1,5 @@
 const { WebcastPushConnection } = require("tiktok-live-connector");
-const { v4: uuidv4 } = require('uuid');
+const { v4: uuidv4 } = require("uuid");
 const fs = require("fs").promises;
 const fileName = "../db.json";
 
@@ -7,7 +7,7 @@ const fileName = "../db.json";
 let writeLock = false;
 
 // Username of someone who is currently live
-let tiktokUsername = "dx3rek";
+let tiktokUsername = "nastyselene";
 
 // Create a new wrapper object and pass the username
 let tiktokLiveConnection = new WebcastPushConnection(tiktokUsername);
@@ -29,10 +29,14 @@ tiktokLiveConnection
 //   dashmcash is sending gift Rose x1
 //   dashmcash has sent gift Rose x1
 
+const processedGifts = {};
+
 tiktokLiveConnection.on("gift", async (data) => {
   // Check if a write operation is already in progress
   if (writeLock) {
-    console.log("Another write operation is in progress. Skipping this update.");
+    console.log(
+      "Another write operation is in progress. Skipping this update."
+    );
     return;
   }
 
@@ -42,9 +46,17 @@ tiktokLiveConnection.on("gift", async (data) => {
   let tikTikInfo = {};
 
   if (data.giftType === 1 && !data.repeatEnd) {
-    // Streak in progress => show only temporary
+    // Check if the gift has already been processed
+    if (!processedGifts[data.giftId]) {
+      // Streak in progress => show only temporary
+      console.log(
+        `${data.uniqueId} is sending gift ${data.giftName} x${data.repeatCount}`
+      );
+    }
+  } else {
+    // Streak ended or non-streakable gift => process the gift with final repeat_count
     console.log(
-      `${data.uniqueId} is sending gift ${data.giftName} x${data.repeatCount}`
+      `${data.uniqueId} has sent gift ${data.giftName} x${data.repeatCount}`
     );
 
     tikTikInfo[uuidv4()] = {
@@ -53,20 +65,39 @@ tiktokLiveConnection.on("gift", async (data) => {
       giftId: data.giftId,
       giftName: data.giftName,
       repeatCount: data.repeatCount,
-    };    
-
-  } else if (data.giftType !== 1)  {
-    console.log(
-      `${data.uniqueId} has sent gift ${data.giftName} it is not gift type 1`
-    );
-    tikTikInfo[uuidv4()] = {
-        uniqueId: data.uniqueId,
-        userId: data.userId,
-        giftId: data.giftId,
-        giftName: data.giftName,
-        repeatCount: data.repeatCount,
     };
+
+    // Mark the gift as processed to avoid duplicate logs
+    processedGifts[data.giftId] = true;
   }
+
+  // if (data.repeatEnd) {
+  //   console.log(
+  //     `${data.uniqueId} is sending gift ${data.giftName} x${data.repeatCount}`
+  //   );
+
+  //   console.log()
+
+  //   tikTikInfo[uuidv4()] = {
+  //     uniqueId: data.uniqueId,
+  //     userId: data.userId,
+  //     giftId: data.giftId,
+  //     giftName: data.giftName,
+  //     repeatCount: data.repeatCount,
+  //   };
+
+  // } else if (data.giftType !== 1)  {
+  //   console.log(
+  //     `${data.uniqueId} has sent gift ${data.giftName} it is not gift type 1`
+  //   );
+  //   tikTikInfo[uuidv4()] = {
+  //       uniqueId: data.uniqueId,
+  //       userId: data.userId,
+  //       giftId: data.giftId,
+  //       giftName: data.giftName,
+  //       repeatCount: data.repeatCount,
+  //   };
+  // }
 
   try {
     // Read the JSON file and parse its contents into a data structure
