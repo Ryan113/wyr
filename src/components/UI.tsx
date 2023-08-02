@@ -94,45 +94,39 @@ const _UIScreen: React.FC<Props> = ({ question, gifts, updateVotes, deleteGiftFr
         increment();
     }
 
-    function giftToVoteConverter(giftName: string) {
+    // dont forget to fix how the gifts are coming through. If someone ads 12 fires then 13 fires
+    // it will add not differentiate and add 12 extra
+
+    function giftToVoteConverter(giftName: string, giftCount: number) {
         switch (giftName) {
             case "Rose":
-                smoothIncrement(setVoteA, 1);
-                return <img src={rose} alt="Rose" height={"10px"} width={"10px"} />
+                smoothIncrement(setVoteA, 1 * giftCount);
                 break;
             case "Fire":
-                smoothIncrement(setVoteA, 5);
+                smoothIncrement(setVoteA, 5 * giftCount);
                 break;
             case "Doughnut":
-                smoothIncrement(setVoteA, 30);
+                smoothIncrement(setVoteA, 30 * giftCount);
                 break;
             case "Cap":
-                smoothIncrement(setVoteA, 99);
+                smoothIncrement(setVoteA, 99 * giftCount);
                 break;
-            case "chili":
-                smoothIncrement(setVoteB, 1);
+            case "Chili":
+                smoothIncrement(setVoteB, 1 * giftCount);
                 break;
             case "Panda":
-                smoothIncrement(setVoteB, 5);
+                smoothIncrement(setVoteB, 5 * giftCount);
                 break;
             case "Choco Strawberries":
-                smoothIncrement(setVoteB, 30);
+                smoothIncrement(setVoteB, 30 * giftCount);
                 break;
             case "Hat and Mustache":
-                smoothIncrement(setVoteB, 99);
+                smoothIncrement(setVoteB, 99 * giftCount);
                 break;
             default:
                 break;
         }
     }
-
-    function imageStyle(giftName: string, value: number) {
-        const height: string = "80px";
-        const width: string = "80px";
-        const marginBottom: string = "20px";
-        console.log('giftname: ' + giftName)
-        return <img src={giftName} alt={giftName} height={height} width={width} style={{ marginBottom }} />
-    };
 
     function giftToImageConverter(giftName: string) {
         const height: string = "120px";
@@ -140,7 +134,7 @@ const _UIScreen: React.FC<Props> = ({ question, gifts, updateVotes, deleteGiftFr
         const marginBottom: string = "-30px";
         switch (giftName) {
             case "Rose":
-                return <img src={fire} alt="Fire" height={height} width={width} style={{ marginBottom }} />
+                return <img src={rose} alt="Fire" height={height} width={width} style={{ marginBottom }} />
             case "Fire":
                 return <img src={fire} alt="Fire" height={height} width={width} style={{ marginBottom }} />
             case "Doughnut":
@@ -148,7 +142,8 @@ const _UIScreen: React.FC<Props> = ({ question, gifts, updateVotes, deleteGiftFr
             case "Cap":
                 return <img src={cap} alt="cap" height={height} width={width} style={{ marginBottom }} />
 
-            case "chili":
+            case "Chili":
+                console.log(giftName)
                 return <img src={chili} alt="chili" height={height} width={width} style={{ marginBottom }} />
 
             case "Panda":
@@ -188,7 +183,7 @@ const _UIScreen: React.FC<Props> = ({ question, gifts, updateVotes, deleteGiftFr
 
                 // if a gift is not showing this is most likely the issue
                 // this shit is broken
-                availableGiftKeys.length > 1 ? setShowGift(true) : setShowGift(false);
+                availableGiftKeys.length > 0 ? setShowGift(true) : setShowGift(false);
 
                 // If showGift is false or there are no available gifts, return the previous keys
                 if (!showGift || availableGiftKeys.length === 0) {
@@ -200,20 +195,17 @@ const _UIScreen: React.FC<Props> = ({ question, gifts, updateVotes, deleteGiftFr
                 const nextGiftKey = availableGiftKeys[0]; // Show the first available gift
                 const count = availableGiftKeys.length;
                 setShowGift(count > 1);
-                // console.log('showGift ' + showGift);
-
+                
+                // If you want to change when the votes are updated itll have something to do with here
                 const foundKey = Object.keys(gifts.giftsData).find(key => key === nextGiftKey);
                 if (foundKey) {
                     // Typescript is getting annoying
                     // @ts-ignore
                     const giftName = gifts.giftsData[foundKey].giftName;
-                    giftToVoteConverter(giftName)
+                    // @ts-ignore
+                    const giftCount = gifts.giftsData[foundKey].repeatCount;
+                    giftToVoteConverter(giftName, giftCount)
                     console.log('giftName' + giftName);
-                    // setUserGiftName(giftName as string);
-                    // giftToVoteConverter(giftName)
-                    // set the state then run this
-                    // getGiftValue(giftName);
-                    // Rest of the code...
                 }
 
                 setAnswer('answerA')
@@ -260,8 +252,8 @@ const _UIScreen: React.FC<Props> = ({ question, gifts, updateVotes, deleteGiftFr
                         marginTop: "-600px",
                     }}
                 >
-                    <Typography sx={{ color: "black", fontWeight: 'bold', fontSize: 60, textAlign: "center" }}>
-                        {gift.uniqueId} votes {giftToImageConverter(gift.giftName)} x{gift.repeatCount}
+                    <Typography sx={{ color: "black", fontWeight: 'bold', fontSize: 65, textAlign: "center" }}>
+                        {gift.uniqueId} votes {giftToImageConverter(gift.giftName)} x {gift.repeatCount}
                     </Typography>
                 </Box>
             );
@@ -376,15 +368,7 @@ const _UIScreen: React.FC<Props> = ({ question, gifts, updateVotes, deleteGiftFr
                             {answerBText}
                         </Typography>
 
-                        <Typography sx={{ color: "black", fontSize: 64, textAlign: 'center' }}>
-
-                            {/* Right here. your working on the number incrment so it looks smooth
-                            getting closer
-                            - change color on box updates
-                            - increment questions every 10 
-                            - find a way to prevent db.json from f'ing up 
-                                - ideas of bug: too many votes coming  */}
-                            {/* Vote: 0 Votes: {}  <Counter start={0} end={voteB} delay={10} /> */}
+                        <Typography sx={{ color: "black", fontSize: 64, textAlign: 'center', fontWeight: 'bold', }}>
                             Votes: {voteB}
                         </Typography>
                     </Box>
@@ -404,26 +388,7 @@ const _UIScreen: React.FC<Props> = ({ question, gifts, updateVotes, deleteGiftFr
                         // backgroundColor: 'blue'
                     }}
                 >
-                    {/* { working on hacing gifts appear every 3 seconds} */}
                     {calculateGifts(gifts)}
-                    {/* <Box
-                        component="div"
-                        sx={{
-                            width: '90%',
-                            height: '80%',
-                            backgroundColor: 'rgba(255, 255, 255, 0.8)', // Replace this with your desired background color or image
-                            borderRadius: '40px', // Adjust the value to control the roundness of the edges
-                            border: '12px solid black', // Add a black solid border
-                            display: 'flex',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            marginTop: '-600px', // Move baby box 1 up by 20px
-                        }}
-                    >
-                        <Typography sx={{ color: "black", fontSize: 60, textAlign: 'center' }}>
-                            Dashmcash: votes rose x 78
-                        </Typography>
-                    </Box> */}
                 </Box>
             </Grid>
 
@@ -463,7 +428,6 @@ const _UIScreen: React.FC<Props> = ({ question, gifts, updateVotes, deleteGiftFr
                             sx={{
                                 flex: '1 1 50%', // Take up 50% of the available space
                                 height: '100%', // Take up 100% of the height of the parent box
-                                // backgroundColor: 'lightblue', // Replace this with your desired background color
                                 borderRadius: '20px', // Adjust the value to control the roundness of the edges
                             }}
                         >
@@ -484,7 +448,6 @@ const _UIScreen: React.FC<Props> = ({ question, gifts, updateVotes, deleteGiftFr
                             sx={{
                                 flex: '1 1 50%', // Take up 50% of the available space
                                 height: '100%', // Take up 100% of the height of the parent box
-                                // backgroundColor: 'lightred', // Replace this with your desired background color
                                 borderRadius: '20px', // Adjust the value to control the roundness of the edges
                             }}
                         >

@@ -33,24 +33,15 @@ export const questionsReducer = (
             const foundQuestion = state.questions.find((question: Question) => question.id === targetId);
             return { ...state, question: foundQuestion || initialState.question };
         case ActionTypes.updateVotesType:
-            const updatedState = { ...state };
-            
-            // If answerA is being updated, update its votes
+            const updatedState = { ...state }; 
             if (action.payload.answer === 'answerA') {
                 updatedState.question.answerA.votes = updatedState.question.answerA.votes  + action.payload.votes;
             }
-
-            // If answerB is being updated, update its votes
             if (action.payload.answer === 'answerB') {
                 updatedState.question.answerB.votes = updatedState.question.answerB.votes = updatedState.question.answerB.votes + action.payload.votes;
             }
-
-
-            // console.log(action.payload.answer)
             return updatedState;
         default:
             return state;
     }
 };
-
-// return updateVotes({"answerA": "answerA", "votes": 1});

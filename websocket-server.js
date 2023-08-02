@@ -2,7 +2,7 @@ const WebSocket = require("ws");
 const fs = require("fs");
 
 const wss = new WebSocket.Server({ port: 8080 });
-const dbFilePath = "./db.json"; // Replace this with the actual path to your db.json file.
+const dbFilePath = "./db.json";
 
 wss.on("connection", (ws) => {
   console.log("Client connected");

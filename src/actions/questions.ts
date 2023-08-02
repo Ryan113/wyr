@@ -15,12 +15,6 @@ export interface Question {
     };
 }
 
-// export interface Votes {
-//     [key: string]: {
-//         votes: number
-//     }
-// }
-
 export interface Votes {
     answerA?: {
       votes: number;

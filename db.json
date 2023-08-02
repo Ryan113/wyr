@@ -1,58 +1,30 @@
 {
-  "071cc7d0-f39a-4821-8f8f-d50f231e4d78": {
-    "uniqueId": "Dashmcash",
-    "userId": "6852521998133363717",
+  "a0b12423-4722-4bf3-97e7-f23cc169fab6": {
+    "uniqueId": "dashmcash",
+    "userId": "6917321322297820165",
+    "giftId": 7086,
+    "giftName": "Chili",
+    "repeatCount": 1
+  },
+  "a80d8107-a388-4d38-b521-77ce8a94a5cb": {
+    "uniqueId": "dashmcash",
+    "userId": "6917321322297820165",
+    "giftId": 7086,
+    "giftName": "Chili",
+    "repeatCount": 1
+  },
+  "bbe2e3e7-a043-4707-95ea-ae036f9bbee6": {
+    "uniqueId": "dashmcash",
+    "userId": "6917321322297820165",
+    "giftId": 7086,
+    "giftName": "Chili",
+    "repeatCount": 2
+  },
+  "ded6c1ac-48c2-44bc-8c9f-259bd4accaf6": {
+    "uniqueId": "thegiannigreco",
+    "userId": "4579089",
     "giftId": 5655,
     "giftName": "Rose",
-    "repeatCount": 1
-  },
-  "071cc7d0-f39a-8f8f-d50f231e4d78": {
-    "uniqueId": "Freshdude",
-    "userId": "6852521998133363717",
-    "giftId": 5655,
-    "giftName": "Cap",
-    "repeatCount": 1
-  },
-  "071cc7d0-f39a-4821-d50f231e4d78": {
-    "uniqueId": "Pample_mix",
-    "userId": "6852521998133363717",
-    "giftId": 5655,
-    "giftName": "Fire",
-    "repeatCount": 1
-  },
-  "d5174994-3f21-47bf-b005-96a70f7560d1": {
-    "uniqueId": "Hey tony",
-    "userId": "6917321322297820165",
-    "giftId": 5655,
-    "giftName": "Doughnut",
-    "repeatCount": 1
-  },
-  "00303a59-5e7d-470d-845a-22ad45194988": {
-    "uniqueId": "Dong_master45",
-    "userId": "6917321322297820165",
-    "giftId": 5655,
-    "giftName": "chili",
-    "repeatCount": 1
-  },
-  "fddf0d1e-bbfd-4c5d-afad-54471ae7a6bc": {
-    "uniqueId": "Judy Chown",
-    "userId": "6917321322297820165",
-    "giftId": 5655,
-    "giftName": "Panda",
-    "repeatCount": 1
-  },
-  "00303a59-asdfasdf-470d-845a-22ad45194988": {
-    "uniqueId": "Catholic_purge",
-    "userId": "6917321322297820165",
-    "giftId": 5655,
-    "giftName": "Choco Strawberries",
-    "repeatCount": 1
-  },
-  "fddf0d1e-bbfwerwerd-4c5d-afad-54471ae7a6bc": {
-    "uniqueId": "Jodie Foster",
-    "userId": "6917321322297820165",
-    "giftId": 5655,
-    "giftName": "Hat and Mustache",
     "repeatCount": 1
   }
 }

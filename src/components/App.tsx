@@ -4,9 +4,16 @@ import { Question, getQuestion, getQuestions, getGiftsData, updateVotes, Votes, 
 import { StoreState } from "../reducers";
 import { Box } from '@mui/material';
 import Typography from "@mui/material/Typography";
-import cat from '../assets/cat.png';
-import barbie from '../assets/barbie.png';
-import op from '../assets/op.png';
+import cat from '../assets/background_images/cat.png';
+import barbie from '../assets/background_images/barbie.png';
+import op from '../assets/background_images/op.png';
+import mushroom from '../assets/background_images/mushroom.png';
+import nature from '../assets/background_images/nature.png';
+import pretty from '../assets/background_images/pretty.png';
+import spraypaint from '../assets/background_images/spraypaint.png';
+import valley from '../assets/background_images/valley.png';
+import phone_nature from '../assets/background_images/pretty.png';
+import cat2 from '../assets/background_images/cat2.png';
 import AspectRatio from '@mui/joy/AspectRatio';
 import { UIScreen } from "./UI";
 import ws from "../websocket"; // Import the WebSocket from the separate module
@@ -21,13 +28,15 @@ interface AppProps {
     getQuestions: () => void,
     getGiftsData: (data: any) => void;
     updateVotes: (votes: Votes) => void;
-    // intervalId: NodeJS.Timeout | null; // Add the intervalId property to the AppState interface
 }
 
 interface AppState {
     questionID: number;
     intervalId: NodeJS.Timeout | null;
+    currentBackgroundIndex: number,
 }
+
+const backgroundImages = [spraypaint, pretty, nature, mushroom, op, barbie, valley, cat2, cat, op, mushroom, nature, spraypaint, phone_nature];
 
 class _App extends React.Component<AppProps, AppState> {
     private intervalId: NodeJS.Timeout | null = null;
@@ -37,6 +46,7 @@ class _App extends React.Component<AppProps, AppState> {
         this.state = {
             questionID: 1,
             intervalId: null,
+            currentBackgroundIndex: 0,
         };
     }
 
@@ -67,17 +77,16 @@ class _App extends React.Component<AppProps, AppState> {
     }
 
     updateQuestion = (): void => {
-        // Increment the questionID and reset it if it exceeds the number of questions
         //@ts-ignore
         const nextQuestionID = (this.state.questionID % this.props.questions.questions.length) + 1;
-        console.log("question index: " + nextQuestionID)
-        console.log("state question ID: " + this.state.questionID)
-        console.log("next question ID : " + nextQuestionID)
+        const nextBackgroundIndex = (this.state.currentBackgroundIndex + 1) % backgroundImages.length;
         this.props.getQuestion(nextQuestionID);
-        this.setState({ questionID: nextQuestionID });
+        this.setState({ questionID: nextQuestionID, currentBackgroundIndex: nextBackgroundIndex });
     };
 
     render() {
+        const currentBackgroundImage = backgroundImages[this.state.currentBackgroundIndex];
+
         return (
             <AspectRatio
                 ratio="9/16"
@@ -88,7 +97,7 @@ class _App extends React.Component<AppProps, AppState> {
                         position: 'absolute',
                         width: '100%',
                         height: '100%',
-                        backgroundImage: `url(${cat})`,
+                        backgroundImage: `url(${currentBackgroundImage})`,
                         backgroundPosition: 'center',
                         backgroundSize: 'cover',
                         backgroundRepeat: 'no-repeat'
