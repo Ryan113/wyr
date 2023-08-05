@@ -1,11 +1,16 @@
 import { combineReducers } from "redux";
 import { questionsReducer } from "./questions";
-import { Question } from "../actions";
+import { Question, Gifts } from "../actions";
+import { giftsReducer } from "./gifts";
 
 export interface StoreState {
-    questions: Question[]
+    questions: Question[],
+    question: Question,
+    gifts: Gifts
 }
 
-export const reducers = combineReducers<StoreState>({
+export const reducers = combineReducers({
     questions: questionsReducer,
+    question: questionsReducer,
+    gifts: giftsReducer
 });

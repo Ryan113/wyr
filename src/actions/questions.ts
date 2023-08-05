@@ -15,6 +15,15 @@ export interface Question {
     };
 }
 
+export interface Votes {
+    answerA?: {
+      votes: number;
+    };
+    answerB?: {
+      votes: number;
+    };
+  }
+
 export interface GetQuestionsAction {
     type: ActionTypes.questions,
     payload: Question[]
@@ -23,6 +32,11 @@ export interface GetQuestionsAction {
 export interface GetQuestionAction {
     type: ActionTypes.getQuestion,
     payload: number
+}
+
+export interface UpdateVotesAction {
+    type: ActionTypes.updateVotesType,
+    payload: any
 }
 
 
@@ -40,5 +54,14 @@ export const getQuestion = (id: number): GetQuestionAction => {
     return {
         type: ActionTypes.getQuestion,
         payload: id
-    }
-}
+    };
+};
+
+export const updateVotes = (votes: any) => {
+    return (dispatch: Dispatch) => {
+      dispatch({
+        type: ActionTypes.updateVotesType,
+        payload: votes,
+      });
+    };
+  };

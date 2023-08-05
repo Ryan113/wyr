@@ -1,5 +1,9 @@
 {
   "compilerOptions": {
+    "typeRoots": [
+      "node_modules/@types",
+      "src/types"
+    ],
     "target": "es5",
     "lib": [
       "dom",
@@ -22,5 +26,9 @@
   },
   "include": [
     "src"
-  ]
+  ],
+  "paths": {
+    "zlib": ["node_modules/browserify-zlib"],
+    "stream": ["node_modules/stream-browserify"]
+  }
 }

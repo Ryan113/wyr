@@ -1,13 +1,13 @@
 [
     {
       "id": 1,
-      "question": "What is the capital of France?",
+      "question": "Oppenheimer or Barbie?",
       "answerA": {
-        "text": "Paris",
+        "text": "Oppenheimer",
         "votes": 0
       },
       "answerB": {
-        "text": "London",
+        "text": "Barbie",
         "votes": 0
       }
     },
