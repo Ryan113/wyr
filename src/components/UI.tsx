@@ -5,10 +5,7 @@ import { connect } from "react-redux";
 import { getGiftsData, updateVotes, deleteGiftFromData } from "../actions";
 import { StoreState } from "../reducers";
 import { Box } from '@mui/material';
-import cat from '../assets/cat.png';
-import board from '../assets/vote_board.png';
 import four from '../assets/4.png';
-import three from '../assets/3x.png';
 import { Gifts, Question, Votes, Gift } from "../actions";
 import "./voteBox.css";
 import rose from "../assets/rose.png"
@@ -38,21 +35,18 @@ const _UIScreen: React.FC<Props> = ({ question, gifts, updateVotes, deleteGiftFr
 
     let currentQuestion = question.question;
     let answerAText = question.answerA.text;
-    let answerAVotes = question.answerA.votes;
     let answerBText = question.answerB.text;
-    let answerBVotes = question.answerB.votes;
 
     const [showGift, setShowGift] = useState(true); // State to control gift display
     const [shownGiftKeys, setShownGiftKeys] = useState<string[]>([]);
-    const [answer, setAnswer] = useState<string>('');
-    const [userVote, setUserVote] = useState<number>(0);
+    // const [answer, setAnswer] = useState<string>('');
+
     const [voteA, setVoteA] = useState<number>(0);
     const [voteB, setVoteB] = useState<number>(0);
     const [isIncrementingA, setIsIncrementingA] = useState<boolean>(false);
     const [isIncrementingB, setIsIncrementingB] = useState<boolean>(false);
-    const [voteABackgroundColor, setVoteABackgroundColor] = useState<string>('rgba(255, 255, 255, 0.8)');
-    const [voteBBackgroundColor, setVoteBBackgroundColor] = useState<string>('rgba(255, 255, 255, 0.8)');
-
+    // const [voteABackgroundColor, setVoteABackgroundColor] = useState<string>("rgba(255, 255, 255, 0.8)");
+    // const [voteBBackgroundColor, setVoteBBackgroundColor] = useState<string>("rgba(255, 255, 255, 0.8)");
 
 
     // Store gifts data in pastKeys state
@@ -70,8 +64,32 @@ const _UIScreen: React.FC<Props> = ({ question, gifts, updateVotes, deleteGiftFr
 
     function smoothIncrement(setVoteFunction: (value: number) => void, incrementBy: number) {
         const delay = 100; // Delay between each vote increment (in milliseconds)
-        const totalIncrements = incrementBy; // Total number of increments for the smooth effect
+        let totalIncrements = incrementBy; // Total number of increments for the smooth effect
         let currentIncrement = 0;
+
+        console.log('incrment by: ' + incrementBy)
+
+        if (incrementBy > 20 && incrementBy < 100 && incrementBy % 9 === 0) {
+            console.log('9')
+            totalIncrements = 9;
+        } else if (incrementBy > 20 && incrementBy < 100 && incrementBy % 2 === 0) {
+            console.log('2')
+            totalIncrements = 2;
+        } else if (incrementBy > 20 && incrementBy < 100 && incrementBy % 3 === 0) {
+            console.log('3')
+            totalIncrements = 3;
+        } else if (incrementBy > 20 && incrementBy < 100 && incrementBy % 4 === 0) {
+            console.log('4')
+            totalIncrements = 4;
+        } else if (incrementBy > 20 && incrementBy < 100 && incrementBy % 5 === 0) {
+            console.log('5')
+            totalIncrements = 5;
+        } else if (incrementBy > 20 && incrementBy < 100 && incrementBy % 7 === 0) {
+            console.log('7')
+            totalIncrements = 7;
+        } else if (incrementBy > 101 && incrementBy < 1000) {
+            totalIncrements = 50;
+        }
 
         // Set the corresponding incrementing state variable to true when starting the increment
         if (setVoteFunction === setVoteA) {
@@ -141,22 +159,16 @@ const _UIScreen: React.FC<Props> = ({ question, gifts, updateVotes, deleteGiftFr
                 return <img src={doughnut} alt="doughnut" height={height} width={width} style={{ marginBottom }} />
             case "Cap":
                 return <img src={cap} alt="cap" height={height} width={width} style={{ marginBottom }} />
-
             case "Chili":
-                console.log(giftName)
                 return <img src={chili} alt="chili" height={height} width={width} style={{ marginBottom }} />
-
             case "Panda":
                 return <img src={panda} alt="panda" height={height} width={width} style={{ marginBottom }} />
-
             case "Choco Strawberries":
                 return <img src={choco_strawberries} alt="choco_straberries" height={height} width={width} style={{ marginBottom }} />
-
             case "Hat and Mustache":
                 return <img src={hat_mustache} alt="hat_mustache" height={height} width={width} style={{ marginBottom }} />
-
             default:
-
+                return `a donation of ${giftName}!`;
         }
     }
 
@@ -195,7 +207,7 @@ const _UIScreen: React.FC<Props> = ({ question, gifts, updateVotes, deleteGiftFr
                 const nextGiftKey = availableGiftKeys[0]; // Show the first available gift
                 const count = availableGiftKeys.length;
                 setShowGift(count > 1);
-                
+
                 // If you want to change when the votes are updated itll have something to do with here
                 const foundKey = Object.keys(gifts.giftsData).find(key => key === nextGiftKey);
                 if (foundKey) {
@@ -208,7 +220,7 @@ const _UIScreen: React.FC<Props> = ({ question, gifts, updateVotes, deleteGiftFr
                     console.log('giftName' + giftName);
                 }
 
-                setAnswer('answerA')
+                // setAnswer('answerA')
                 return [...prevKeys, nextGiftKey];
             });
         }, 3000);

@@ -7,7 +7,7 @@ const fileName = "../db.json";
 let writeLock = false;
 
 // Username of someone who is currently live
-let tiktokUsername = "nastyselene";
+let tiktokUsername = "thuyrjkr";
 
 // Create a new wrapper object and pass the username
 let tiktokLiveConnection = new WebcastPushConnection(tiktokUsername);
